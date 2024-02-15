@@ -1,7 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../header";
+import { auth } from "../../firebase/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Navigate } from "react-router-dom";
 
 const Signup = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [redirectToLogin, setRedirectToLogin] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const signUp = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log(userCredential);
+        setRedirectToLogin(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  if (redirectToLogin) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div id="Signup" className="container">
       <div className="pt-5">
@@ -19,13 +46,13 @@ const Signup = () => {
           <div className="col-lg-6 col-sm-6">
             <div class="card mb-3 py-3 px-2">
               <div class="card-body">
-                <form>
+                <form onSubmit={signUp}>
                   <div class="mb-3">
                     <label for="exampleInputName" class="form-label">
                       Nom Complet
                     </label>
                     <input
-                      type="email"
+                      type="text"
                       class="form-control"
                       id="exampleInputName"
                       aria-describedby="emailHelp"
@@ -40,6 +67,8 @@ const Signup = () => {
                       class="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div class="mb-3">
@@ -50,18 +79,20 @@ const Signup = () => {
                       type="password"
                       class="form-control"
                       id="exampleInputPassword1"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   <div className="d-flex justify-content-center ">
                     <button type="submit" class="btn btn-danger">
-                      <a
-                        className="text-decoration-none text-white"
-                        href="/home"
-                      >
-                        Inscription
-                      </a>
+                      Inscription
                     </button>
                   </div>
+                  {loading && (
+                    <div className="loader text-center text-secondary">
+                      Inscription...
+                    </div>
+                  )}
                 </form>
               </div>
               <p className="text-center">

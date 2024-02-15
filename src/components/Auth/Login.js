@@ -1,7 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../header";
+import { auth } from "../../firebase/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [redirectToHome, setRedirectToHome] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const signIn = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log(userCredential);
+        setRedirectToHome(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  if (redirectToHome) {
+    return <Navigate to="/home" replace />;
+  }
   return (
     <div id="Login" className="container">
       <div className="pt-5">
@@ -23,7 +50,7 @@ const Login = () => {
             <div className="col-lg-6 col-sm-6 d-flex justify-content-center">
               <div class="card mb-3 py-3 px-2">
                 <div class="card-body">
-                  <form>
+                  <form onSubmit={signIn}>
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label">
                         Email
@@ -33,6 +60,8 @@ const Login = () => {
                         class="form-control"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                     <div class="mb-3">
@@ -43,18 +72,20 @@ const Login = () => {
                         type="password"
                         class="form-control"
                         id="exampleInputPassword1"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
                     <div className="d-flex justify-content-center ">
-                      <button type="submit" class="btn btn-danger">
-                        <a
-                          className="text-decoration-none text-white"
-                          href="/home"
-                        >
-                          Connexion
-                        </a>
+                      <button type="submit" className="btn btn-danger">
+                        Connexion
                       </button>
                     </div>
+                    {loading && (
+                      <div className="loader text-center text-secondary">
+                        Connexion...
+                      </div>
+                    )}
                   </form>
                 </div>
                 <p className="text-center">
@@ -68,6 +99,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      {loading && <div className="loader">Chargement...</div>}
     </div>
   );
 };

@@ -7,10 +7,10 @@ body {
   font-style: regural;
 }
 #header {
-  background-color: rgba(219, 219, 219, 0.795);
+  background-color: rgb(219, 219, 219);
 }
 #headerHome {
-  background-color: rgba(219, 219, 219, 0.795);
+  background-color: rgb(219, 219, 219);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,6 +29,7 @@ body {
 #Login .card {
   background-color: rgba(219, 219, 219, 0.795);
 }
+
 #Signup .card {
   background-color: rgba(219, 219, 219, 0.795);
 }
@@ -37,9 +38,9 @@ body {
 }
 @media screen and (max-width: 780px) {
   .Titre {
-    font-size: 40px;
+    font-size: 25px;
   }
   .Texte {
-    font-size: 20px;
+    font-size: 15px;
   }
 }
