@@ -3,9 +3,10 @@ import HeaderHome from "../components/headerHome";
 import TaskList from "../components/Task/TaskList";
 
 const Home = () => {
+  const fullName = localStorage.getItem('fullName');
   return (
     <div id="Home" className="container pt-5">
-      <HeaderHome />
+      <HeaderHome fullName={fullName} />
       <p className="mt-5 fs-4">Ajouter une tache !</p>
       <div className=" d-flex justify-content-center gap-3 align-items-center border rounded-4 py-2 px-3 mb-3  bg-danger">
         <input

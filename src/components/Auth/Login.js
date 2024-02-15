@@ -99,7 +99,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-      {loading && <div className="loader">Chargement...</div>}
     </div>
   );
 };

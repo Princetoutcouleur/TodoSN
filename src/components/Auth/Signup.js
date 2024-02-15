@@ -9,6 +9,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [redirectToLogin, setRedirectToLogin] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [fullName, setFullName] = useState("");
 
   const signUp = (e) => {
     e.preventDefault();
@@ -16,6 +17,9 @@ const Signup = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
+        localStorage.setItem("fullName", fullName);
+        localStorage.setItem("email", email);
+        localStorage.setItem("password", password);
         setRedirectToLogin(true);
       })
       .catch((error) => {
@@ -56,6 +60,8 @@ const Signup = () => {
                       class="form-control"
                       id="exampleInputName"
                       aria-describedby="emailHelp"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
                     />
                   </div>
                   <div class="mb-3">
