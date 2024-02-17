@@ -6,6 +6,7 @@ import "./App.css";
 import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
 import Home from "./pages/Home";
+import ForgotPassword from "./components/Auth/ForgotPassword";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route exact path="/" element={<Login className="w-lg-50" />} />
             <Route path="/signup" element={<Signup className="w-lg-50" />} />
             <Route path="/home" element={<Home className="w-lg-75" />} />
+            <Route path="/reset" element={<ForgotPassword className="w-lg-75" />} />
           </Routes>
         </div>
       </div>
