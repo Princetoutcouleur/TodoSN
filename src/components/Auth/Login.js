@@ -5,12 +5,19 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { Navigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirectToHome, setRedirectToHome] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const signIn = (e) => {
     e.preventDefault();
@@ -81,13 +88,22 @@ const Login = () => {
                       <label for="exampleInputPassword1" class="form-label">
                         Mot de passe
                       </label>
-                      <input
-                        type="password"
-                        class="form-control"
-                        id="exampleInputPassword1"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
+                      <div className="d-flex">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          className="form-control"
+                          id="exampleInputPassword1"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-link position-absolute end-0 me-4 text-danger"
+                          onClick={togglePasswordVisibility}
+                        >
+                          {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+                      </div>
                     </div>
                     <a href="/reset" className="text-danger">
                       Mot de passe oublié ?

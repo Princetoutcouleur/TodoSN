@@ -5,6 +5,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Navigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +14,11 @@ const Signup = () => {
   const [redirectToLogin, setRedirectToLogin] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fullName, setFullName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const signUp = (e) => {
     e.preventDefault();
@@ -25,7 +32,7 @@ const Signup = () => {
         toast.success("Inscription réussie !");
         setTimeout(() => {
           setRedirectToLogin(true);
-        }, 2000); // Rediriger après 2 secondes
+        }, 2000);
       })
       .catch((error) => {
         console.log(error);
@@ -54,49 +61,61 @@ const Signup = () => {
             </p>
           </div>
           <div className="col-lg-6 col-sm-6">
-            <div class="card mb-3 py-3 px-2">
-              <div class="card-body">
+            <div className="card mb-3 py-3 px-2">
+              <div className="card-body">
                 <form onSubmit={signUp}>
-                  <div class="mb-3">
-                    <label for="exampleInputName" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="exampleInputName" className="form-label">
                       Nom Complet
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="exampleInputName"
                       aria-describedby="emailHelp"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                     />
                   </div>
-                  <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">
+                  <div className="mb-3">
+                    <label htmlFor="exampleInputEmail1" className="form-label">
                       Email
                     </label>
                     <input
                       type="email"
-                      class="form-control"
+                      className="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
-                  <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">
+                  <div className="mb-3 position-relative">
+                    <label
+                      htmlFor="exampleInputPassword1"
+                      className="form-label"
+                    >
                       Mot de passe
                     </label>
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="exampleInputPassword1"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
+                    <div className="d-flex">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        className="form-control"
+                        id="exampleInputPassword1"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-link position-absolute end-0 text-danger"
+                        onClick={togglePasswordVisibility}
+                      >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </button>
+                    </div>
                   </div>
                   <div className="d-flex justify-content-center ">
-                    <button type="submit" class="btn btn-danger">
+                    <button type="submit" className="btn btn-danger">
                       Inscription
                     </button>
                   </div>
@@ -123,4 +142,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
