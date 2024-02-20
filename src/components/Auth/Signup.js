@@ -3,6 +3,8 @@ import Header from "../header";
 import { auth } from "../../firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Navigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -20,10 +22,14 @@ const Signup = () => {
         localStorage.setItem("fullName", fullName);
         localStorage.setItem("email", email);
         localStorage.setItem("password", password);
-        setRedirectToLogin(true);
+        toast.success("Inscription réussie !");
+        setTimeout(() => {
+          setRedirectToLogin(true);
+        }, 2000); // Rediriger après 2 secondes
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Erreur lors de l'inscription !");
       })
       .finally(() => {
         setLoading(false);
@@ -111,8 +117,10 @@ const Signup = () => {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" />
     </div>
   );
 };
 
 export default Signup;
+

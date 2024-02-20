@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
 import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
@@ -13,6 +15,7 @@ function App() {
     <Router>
       <div className="App container w-100">
         <div>
+        <ToastContainer />
           <Routes>
             <Route exact path="/" element={<Login className="w-lg-50" />} />
             <Route path="/signup" element={<Signup className="w-lg-50" />} />

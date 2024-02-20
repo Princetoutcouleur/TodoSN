@@ -3,6 +3,8 @@ import Header from "../header";
 import { auth } from "../../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Navigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,10 +18,21 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
-        setRedirectToHome(true);
+        toast.success("Connexion réussie !");
+        setTimeout(() => {
+          setRedirectToHome(true);
+        }, 2000);
       })
       .catch((error) => {
         console.log(error);
+        if (
+          error.code === "auth/wrong-password" ||
+          error.code === "auth/user-not-found"
+        ) {
+          toast.error("Email ou mot de passe incorrect.");
+        } else {
+          toast.error("Erreur lors de la connexion !");
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -76,7 +89,9 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
-                    <a href="/reset" className="text-danger">Mot de passe oublié ?</a>
+                    <a href="/reset" className="text-danger">
+                      Mot de passe oublié ?
+                    </a>
                     <div className="d-flex justify-content-center pt-3">
                       <button type="submit" className="btn btn-danger">
                         Connexion
@@ -90,7 +105,7 @@ const Login = () => {
                   </form>
                 </div>
                 <p className="text-center">
-                  Inscrivez-vous si vous avezpas un compte.{" "}
+                  Inscrivez-vous si vous avez pas un compte.{" "}
                   <a className="text-danger" href="/signup">
                     Inscription
                   </a>
@@ -100,6 +115,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" />
     </div>
   );
 };

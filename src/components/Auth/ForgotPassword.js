@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 import Header from "../header";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -11,17 +13,17 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) {
-      alert("Veuillez entrer une adresse e-mail valide.");
+      toast.error("Veuillez entrer une adresse e-mail valide.");
       return;
     }
 
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        alert("Vérifiez votre boîte mail.");
+        toast.success("Vérifiez votre boîte mail.");
         navigate("/");
       })
       .catch((err) => {
-        alert(err.code);
+        toast.error(err.code);
       });
   };
 
@@ -70,6 +72,7 @@ const ForgotPassword = () => {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" />
     </div>
   );
 };
