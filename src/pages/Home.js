@@ -1,9 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import HeaderHome from "../components/headerHome";
 import TaskList from "../components/Task/TaskList";
+import { addTask } from "../services/firestoreService";
 
 const Home = () => {
-  const fullName = localStorage.getItem('fullName');
+  const fullName = localStorage.getItem("fullName");
+  const [taskText, setTaskText] = useState("");
+  const [updateKey, setUpdateKey] = useState(0);
+
+  const handleInputChange = (e) => {
+    setTaskText(e.target.value);
+  };
+
+  const handleAddTask = async () => {
+    if (taskText.trim() === "") {
+      return; // Ne rien faire si le texte de la tâche est vide
+    }
+
+    const newTask = {
+      title: taskText,
+      completed: false,
+    };
+
+    await addTask(newTask); // Ajoute la nouvelle tâche à Firestore
+    setTaskText(""); // Réinitialise l'input après l'ajout de la tâche
+    setUpdateKey(updateKey + 1); // Met à jour la clé pour actualiser la liste des tâches
+  };
   return (
     <div id="Home" className="container pt-5">
       <HeaderHome fullName={fullName} />
@@ -13,13 +35,18 @@ const Home = () => {
           className="border-0 border border-1 rounded-3 p-1 bg-white w-75"
           type="text"
           placeholder="Ajouter une tache"
+          value={taskText}
+          onChange={handleInputChange}
         />
-        <button className="border border-1 rounded fs-5 fw-bold bg-white text-secondary">
+        <button
+          className="border border-1 rounded fs-5 fw-bold bg-white text-secondary"
+          onClick={handleAddTask}
+        >
           +
         </button>
       </div>
       <div className="d-lex justify-content-center">
-        <TaskList />
+        <TaskList updateKey={updateKey} />
       </div>
     </div>
   );
