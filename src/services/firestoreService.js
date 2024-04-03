@@ -12,7 +12,9 @@ const addTask = async (taskData) => {
     const taskRef = await firestore.collection("tasks").add({
       ...taskData,
       userId: user.uid
-    });
+    }).then((value) => {
+      console.log({ value})
+    }).catch(console.error);
     console.log("Task added with ID: ", taskRef.id);
     return taskRef.id;
   } catch (error) {
@@ -42,4 +44,13 @@ const getTasks = async () => {
   }
 };
 
-export { addTask, getTasks };
+const updateTask = async (taskId, updatedData) => {
+  try {
+    await firestore.collection("tasks").doc(taskId).update(updatedData);
+    console.log("Task updated successfully");
+  } catch (error) {
+    console.error("Error updating task: ", error);
+  }
+};
+
+export { getTasks, addTask, updateTask };
