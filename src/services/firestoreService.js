@@ -1,9 +1,18 @@
-import { firestore } from "../firebase/firebase";
+import { firestore, auth } from "../firebase/firebase";
 
 const addTask = async (taskData) => {
   // Code pour ajouter une tâche à Firestore
   try {
-    const taskRef = await firestore.collection("tasks").add(taskData);
+    const user = auth.currentUser;
+    if (!user) {
+      console.error("User not authenticated");
+      return null;
+    }
+
+    const taskRef = await firestore.collection("tasks").add({
+      ...taskData,
+      userId: user.uid
+    });
     console.log("Task added with ID: ", taskRef.id);
     return taskRef.id;
   } catch (error) {
@@ -12,16 +21,16 @@ const addTask = async (taskData) => {
   }
 };
 
-// Utilisation de la fonction pour ajouter une tâche
-const taskData = {
-  title: "Ma première tâche",
-  completed: false,
-};
-
 const getTasks = async () => {
   // Code pour récupérer les tâches depuis Firestore
   try {
-    const tasksSnapshot = await firestore.collection("tasks").get();
+    const user = auth.currentUser;
+    if (!user) {
+      console.error("User not authenticated");
+      return [];
+    }
+
+    const tasksSnapshot = await firestore.collection("tasks").where("userId", "==", user.uid).get();
     const tasks = [];
     tasksSnapshot.forEach((doc) => {
       tasks.push({ id: doc.id, ...doc.data() });

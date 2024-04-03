@@ -14,8 +14,8 @@ const TaskItem = ({ task }) => {
           <button className="btn btn-success">
             <CiCircleCheck className="fw-bold fs-4" />
           </button>
-          <button className="btn btn-primary">
-            <CiEdit className="fw-bold fs-4" />
+          <button className="btn btn-warning">
+            <CiEdit className="fw-bold fs-4 text-success" />
           </button>
           <button className="btn btn-danger">
             <CiTrash className="fw-bold fs-4" />
