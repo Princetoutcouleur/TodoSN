@@ -2,6 +2,8 @@ import { firestore, auth } from "../firebase/firebase";
 
 const addTask = async (taskData) => {
   // Code pour ajouter une tâche à Firestore
+  const user = auth.currentUser;
+  console.log("Current user:", user);
   try {
     const user = auth.currentUser;
     if (!user) {
@@ -15,7 +17,7 @@ const addTask = async (taskData) => {
     }).then((value) => {
       console.log({ value})
     }).catch(console.error);
-    console.log("Task added with ID: ", taskRef.id);
+    console.log("Task added with ID: ", taskRef.userId);
     return taskRef.id;
   } catch (error) {
     console.error("Error adding task: ", error);

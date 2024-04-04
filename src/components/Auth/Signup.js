@@ -7,6 +7,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { firestore } from "../../firebase/firebase";
+
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -20,28 +22,27 @@ const Signup = () => {
     setShowPassword(!showPassword);
   };
 
-  const signUp = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential);
-        localStorage.setItem("fullName", fullName);
-        localStorage.setItem("email", email);
-        localStorage.setItem("password", password);
-        toast.success("Inscription réussie !");
-        setTimeout(() => {
-          setRedirectToLogin(true);
-        }, 2000);
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Erreur lors de l'inscription !");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+ const signUp = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await firestore.collection("users").doc(userCredential.user.uid).set({
+      fullName: fullName,
+      email: email
+    });
+    toast.success("Inscription réussie !");
+    setTimeout(() => {
+      setRedirectToLogin(true);
+    }, 2000);
+  } catch (error) {
+    console.error(error);
+    toast.error("Erreur lors de l'inscription !");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   if (redirectToLogin) {
     return <Navigate to="/" replace />;
