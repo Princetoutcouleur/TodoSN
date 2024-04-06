@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { firestore } from "../firebase/firebase";
 
-const HeaderHome = ({ fullName }) => {
+const HeaderHome = ({ userId }) => {
+  const [fullName, setFullName] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userDoc = await firestore.collection("users").doc(userId).get();
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          setFullName(userData.fullName);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    if (userId) {
+      fetchUserData();
+    }
+  }, [userId]);
 
   const logout = () => {
     localStorage.clear();

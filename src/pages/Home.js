@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import HeaderHome from "../components/headerHome";
 import TaskList from "../components/Task/TaskList";
 import { addTask } from "../services/firestoreService";
+import { useAuth } from "../contexts/AuthContext";
 
 const Home = () => {
-  const fullName = localStorage.getItem("fullName");
   const [taskText, setTaskText] = useState("");
   const [updateKey, setUpdateKey] = useState(0);
+  const { user } = useAuth();
 
   const handleInputChange = (e) => {
     setTaskText(e.target.value);
@@ -28,7 +29,7 @@ const Home = () => {
   };
   return (
     <div id="Home" className="container pt-5">
-      <HeaderHome fullName={fullName} />
+      <HeaderHome userId={user.uid} />
       <p className="mt-5 fs-4">Ajouter une tache !</p>
       <div className=" d-flex justify-content-center gap-3 align-items-center border rounded-4 py-2 px-3 mb-3  bg-danger">
         <input
