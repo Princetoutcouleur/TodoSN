@@ -11,27 +11,36 @@ const TaskItem = ({ task, handleUpdate }) => {
   };
 
   return (
-    <div className={`tache px-2 py-2 mb-3 rounded-4 ${task.completed ? 'bg-success'  : 'bg-light'}`}>
+    <div
+      className={`tache px-2 py-2 mb-3 rounded-4 ${
+        task.completed ? "bg-success-subtle" : "bg-light"
+      }`}
+    >
       <div className="row">
         <div className="col-lg-6 col-md-6 col-sm-6 ps-3">
           <p>{task.title}</p>
         </div>
-        <div className="col-lg-6 col-md-6 col-sm-6 d-flex justify-content-end gap-2">
-          {task.completed ? (
-            <button className="btn btn-secondary" disabled>
-              <CiCircleCheck className="fw-bold fs-4" />
+        <div className="col-lg-6 col-md-6 col-sm-6 d-flex justify-content-end align-items-center ">
+          <div className="d-flex gap-2">
+            {task.completed ? (
+              <button className="border-0 rounded shadow-lg" disabled>
+                <CiCircleCheck className="fw-bold fs-1 text-secondary" />
+              </button>
+            ) : (
+              <button
+                className="border-0 rounded shadow-lg"
+                onClick={handleTaskCompleted}
+              >
+                <CiCircleCheck className="fw-bold fs-1 text-success" />
+              </button>
+            )}
+            <button className="border-0 rounded shadow-lg">
+              <CiEdit className="fw-bold fs-1 text-primary" />
             </button>
-          ) : (
-            <button className="btn btn-success" onClick={handleTaskCompleted}>
-              <CiCircleCheck className="fw-bold fs-4" />
+            <button className="border-0 rounded shadow-lg">
+              <CiTrash className="fw-bold fs-1 text-danger" />
             </button>
-          )}
-          <button className="btn btn-warning">
-            <CiEdit className="fw-bold fs-4 text-success" />
-          </button>
-          <button className="btn btn-danger">
-            <CiTrash className="fw-bold fs-4" />
-          </button>
+          </div>
         </div>
       </div>
     </div>
