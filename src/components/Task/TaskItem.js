@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { CiTrash } from "react-icons/ci";
 import { CiCircleCheck } from "react-icons/ci";
 import { updateTask } from "../../services/firestoreService";
+import { GrUpdate } from "react-icons/gr";
 
 const TaskItem = ({ task, handleUpdate }) => {
   const handleTaskCompleted = async () => {
     await updateTask(task.id, { completed: true });
     handleUpdate();
+  };
+
+  const [editing, setEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(task.title);
+
+  const handleEditClick = () => {
+    setEditing(true);
+  };
+
+  const handleSaveClick = async () => {
+    await updateTask(task.id, { title: editedTitle });
+    handleUpdate();
+    setEditing(false);
+  };
+
+  const handleCancelClick = () => {
+    setEditedTitle(task.title);
+    setEditing(false);
+  };
+
+  const handleInputChange = (e) => {
+    setEditedTitle(e.target.value);
   };
 
   return (
@@ -18,7 +41,16 @@ const TaskItem = ({ task, handleUpdate }) => {
     >
       <div className="row">
         <div className="col-lg-6 col-md-6 col-sm-6 ps-3">
-          <p>{task.title}</p>
+          {editing ? (
+            <input
+              type="text"
+              className="form-control"
+              value={editedTitle}
+              onChange={handleInputChange}
+            />
+          ) : (
+            <p>{task.title}</p>
+          )}
         </div>
         <div className="col-lg-6 col-md-6 col-sm-6 d-flex justify-content-end align-items-center ">
           <div className="d-flex gap-2">
@@ -34,9 +66,29 @@ const TaskItem = ({ task, handleUpdate }) => {
                 <CiCircleCheck className="fw-bold fs-1 text-success" />
               </button>
             )}
-            <button className="border-0 rounded shadow-lg">
-              <CiEdit className="fw-bold fs-1 text-primary" />
-            </button>
+            {editing ? (
+              <>
+                <button
+                  className="border-0 rounded shadow-lg"
+                  onClick={handleSaveClick}
+                >
+                  <GrUpdate className="fs-3 text-primary" />
+                </button>
+                <button
+                  className="border-0 rounded shadow-lg text-danger"
+                  onClick={handleCancelClick}
+                >
+                  Annuler
+                </button>
+              </>
+            ) : (
+              <button
+                className="border-0 rounded shadow-lg"
+                onClick={handleEditClick}
+              >
+                <CiEdit className="fw-bold fs-1 text-primary" />
+              </button>
+            )}
             <button className="border-0 rounded shadow-lg">
               <CiTrash className="fw-bold fs-1 text-danger" />
             </button>
