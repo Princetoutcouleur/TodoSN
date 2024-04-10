@@ -4,6 +4,7 @@ import { CiTrash } from "react-icons/ci";
 import { CiCircleCheck } from "react-icons/ci";
 import { updateTask } from "../../services/firestoreService";
 import { GrUpdate } from "react-icons/gr";
+import { deleteTask } from "../../services/firestoreService";
 
 const TaskItem = ({ task, handleUpdate }) => {
   const handleTaskCompleted = async () => {
@@ -31,6 +32,11 @@ const TaskItem = ({ task, handleUpdate }) => {
 
   const handleInputChange = (e) => {
     setEditedTitle(e.target.value);
+  };
+
+  const handleDelete = async () => {
+    await deleteTask(task.id);
+    handleUpdate();
   };
 
   return (
@@ -89,7 +95,7 @@ const TaskItem = ({ task, handleUpdate }) => {
                 <CiEdit className="fw-bold fs-1 text-primary" />
               </button>
             )}
-            <button className="border-0 rounded shadow-lg">
+            <button className="border-0 rounded shadow-lg" onClick={handleDelete}>
               <CiTrash className="fw-bold fs-1 text-danger" />
             </button>
           </div>

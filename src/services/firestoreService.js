@@ -55,4 +55,13 @@ const updateTask = async (taskId, updatedData) => {
   }
 };
 
-export { getTasks, addTask, updateTask };
+const deleteTask = async (taskId) => {
+  try {
+    await firestore.collection("tasks").doc(taskId).delete();
+    console.log("Task successfully deleted!");
+  } catch (error) {
+    console.error("Error deleting task: ", error);
+  }
+};
+
+export { getTasks, addTask, updateTask, deleteTask };
