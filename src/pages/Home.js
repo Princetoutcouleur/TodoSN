@@ -29,25 +29,29 @@ const Home = () => {
   };
   return (
     <div id="Home" className="container pt-5">
-      <HeaderHome userId={user.uid} />
-      <p className="mt-5 fs-4">Ajouter une tache !</p>
-      <div className=" d-flex justify-content-center gap-3 align-items-center border rounded-4 py-2 px-3 mb-3  bg-danger">
-        <input
-          className="border-0 border border-1 rounded-3 p-1 bg-white w-75"
-          type="text"
-          placeholder="Ajouter une tache"
-          value={taskText}
-          onChange={handleInputChange}
-        />
-        <button
-          className="border border-1 rounded fs-5 fw-bold bg-white text-secondary"
-          onClick={handleAddTask}
-        >
-          +
-        </button>
+      <div className="row d-flex justify-content-center align-items-center">
+      <div className="col-lg-8">
+        <HeaderHome userId={user.uid} />
+        <p className="mt-5 fs-4">Ajouter une tache !</p>
+        <div className=" d-flex justify-content-center gap-3 align-items-center border rounded-4 py-2 px-3 mb-3  bg-danger">
+          <input
+            className="border-0 border border-1 rounded-3 p-1 bg-white w-75"
+            type="text"
+            placeholder="Ajouter une tache"
+            value={taskText}
+            onChange={handleInputChange}
+          />
+          <button
+            className="border border-1 rounded fs-5 fw-bold bg-white text-secondary"
+            onClick={handleAddTask}
+          >
+            +
+          </button>
+        </div>
+        <div className="d-lex justify-content-center">
+          <TaskList updateKey={updateKey} />
+        </div>
       </div>
-      <div className="d-lex justify-content-center">
-        <TaskList updateKey={updateKey} />
       </div>
     </div>
   );

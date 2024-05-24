@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { Button } from "@nextui-org/react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -109,15 +110,16 @@ const Login = () => {
                       Mot de passe oublié ?
                     </a>
                     <div className="d-flex justify-content-center pt-3">
+                    {loading ? (
+                      <Button className="btn btn-danger" color="danger" isLoading>
+                        Connexion...
+                      </Button>
+                    ) : (
                       <button type="submit" className="btn btn-danger">
                         Connexion
                       </button>
-                    </div>
-                    {loading && (
-                      <div className="loader text-center text-secondary">
-                        Connexion...
-                      </div>
                     )}
+                    </div>
                   </form>
                 </div>
                 <p className="text-center">

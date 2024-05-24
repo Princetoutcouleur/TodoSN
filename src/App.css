@@ -35,6 +35,7 @@ body {
 #Home .card {
   background-color: rgba(219, 219, 219, 0.795);
 }
+
 @media screen and (max-width: 780px) {
   .Titre {
     font-size: 25px;
