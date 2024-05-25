@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { CiEdit } from "react-icons/ci";
-import { CiTrash } from "react-icons/ci";
-import { CiCircleCheck } from "react-icons/ci";
-import { updateTask } from "../../services/firestoreService";
+import { CiEdit, CiTrash, CiCircleCheck } from "react-icons/ci";
 import { GrUpdate } from "react-icons/gr";
-import { deleteTask } from "../../services/firestoreService";
+import { updateTask, deleteTask } from "../../services/firestoreService";
 
 const TaskItem = ({ task, handleUpdate }) => {
   const handleTaskCompleted = async () => {
@@ -58,7 +55,7 @@ const TaskItem = ({ task, handleUpdate }) => {
             <p>{task.title}</p>
           )}
         </div>
-        <div className="col-lg-6 col-md-6 col-sm-6 d-flex justify-content-end align-items-center ">
+        <div className="col-lg-6 col-md-6 col-sm-6 d-flex justify-content-end align-items-center">
           <div className="d-flex gap-2">
             {task.completed ? (
               <button className="border-0 rounded shadow-lg" disabled>
